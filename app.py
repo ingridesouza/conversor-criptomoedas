@@ -3,31 +3,33 @@ import requests
 
 app = Flask(__name__)
 
-# URL da API CoinCap
-API_URL = "https://api.coincap.io/v2"
-API_KEY = "bdac2b7b-7e0c-4758-9f45-1cc61fb7a8b8"  # Sua chave de API CoinCap
+# Chave da CoinGecko API
+COINGECKO_API_KEY = "CG-MFhwUmeQazhPGr2GYFafttYy"
 
-# URL da API Exchange Rates
-EXCHANGE_RATES_API_URL = "http://api.exchangeratesapi.io/v1/latest"
-EXCHANGE_RATES_API_KEY = "73fb94cd36a99cd067e83c6b98979a0a"  # Sua chave de API Exchange Rates
+# URL base da CoinGecko API
+COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 
-# Cabeçalho para autenticação da CoinCap
+# Cabeçalho para autenticação (opcional, pois a CoinGecko não requer autenticação para uso básico)
 headers = {
-    "Authorization": f"Bearer {API_KEY}"
+    "x-cg-demo-api-key": COINGECKO_API_KEY
 }
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/get-cryptos')
-def get_cryptos():
+@app.route('/get-top-cryptos')
+def get_top_cryptos():
     try:
-        response = requests.get(f"{API_URL}/assets?limit=10", headers=headers)
+        # Buscar as 20 principais criptomoedas
+        response = requests.get(
+            f"{COINGECKO_API_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false",
+            headers=headers
+        )
         if response.status_code != 200:
             return jsonify({"error": "Erro ao buscar criptomoedas"}), 400
 
-        cryptos = response.json()['data']
+        cryptos = response.json()
         return jsonify(cryptos)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -39,35 +41,21 @@ def convert():
     to_currency = data['to']      # Código da moeda tradicional (ex: USD)
     amount = float(data['amount'])
 
-    print("ID da criptomoeda recebido:", from_currency)  # Log do ID
-
     try:
         # Obter o preço da criptomoeda em USD
-        response = requests.get(f"{API_URL}/assets/{from_currency}", headers=headers)
-        print("Resposta da API (Criptomoeda):", response.status_code, response.json())  # Log da resposta
-
+        response = requests.get(f"{COINGECKO_API_URL}/coins/{from_currency}", headers=headers)
         if response.status_code != 200:
             return jsonify({"error": "Criptomoeda não encontrada"}), 400
 
         crypto_data = response.json()
-        crypto_price_usd = float(crypto_data['data']['priceUsd'])
+        crypto_price_usd = crypto_data['market_data']['current_price']['usd']
 
         # Obter a taxa de câmbio da moeda tradicional (ex: USD, BRL, EUR)
-        response = requests.get(f"{EXCHANGE_RATES_API_URL}?access_key={EXCHANGE_RATES_API_KEY}")
-        print("Resposta da API (Moeda Tradicional):", response.status_code, response.json())  # Log da resposta
-
+        response = requests.get(f"{COINGECKO_API_URL}/simple/price?ids={from_currency}&vs_currencies={to_currency}")
         if response.status_code != 200:
             return jsonify({"error": "Erro ao buscar taxa de câmbio"}), 400
 
-        currency_data = response.json()
-        if not currency_data.get('rates'):
-            return jsonify({"error": "Dados da moeda tradicional inválidos"}), 400
-
-        # Verifique se a moeda tradicional solicitada está na resposta
-        if to_currency.upper() not in currency_data['rates']:
-            return jsonify({"error": f"Moeda tradicional {to_currency} não suportada"}), 400
-
-        currency_rate = float(currency_data['rates'][to_currency.upper()])
+        currency_rate = response.json()[from_currency][to_currency]
 
         # Converter o valor
         converted_amount = amount * crypto_price_usd * currency_rate
@@ -84,17 +72,22 @@ def convert():
         print("Erro:", e)  # Log do erro
         return jsonify({"error": str(e)}), 500
 
-@app.route('/get-top-cryptos')
-def get_top_cryptos():
+@app.route('/crypto/<crypto_id>')
+def crypto_details(crypto_id):
     try:
-        response = requests.get(f"{API_URL}/assets?limit=20", headers=headers)
+        # Buscar informações detalhadas da criptomoeda
+        response = requests.get(f"{COINGECKO_API_URL}/coins/{crypto_id}", headers=headers)
         if response.status_code != 200:
-            return jsonify({"error": "Erro ao buscar criptomoedas"}), 400
+            return jsonify({"error": "Criptomoeda não encontrada"}), 404
 
-        cryptos = response.json()['data']
-        return jsonify(cryptos)
+        crypto_data = response.json()
+        return jsonify(crypto_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -19,25 +19,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const tableBody = document.querySelector('#crypto-table tbody');
             const fromSelect = document.getElementById('from');
 
-            data.forEach(crypto => {
+            data.forEach((crypto, index) => {
                 // Preencher a tabela
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${crypto.rank}</td>
-                    <td>${crypto.name} (${crypto.symbol})</td>
-                    <td>${parseFloat(crypto.priceUsd).toFixed(2)}</td>
-                    <td>${parseFloat(crypto.marketCapUsd).toLocaleString()}</td>
-                    <td>${parseFloat(crypto.vwap24Hr).toFixed(2)}</td>
-                    <td>${parseFloat(crypto.supply).toLocaleString()}</td>
-                    <td>${parseFloat(crypto.volumeUsd24Hr).toLocaleString()}</td>
-                    <td>${parseFloat(crypto.changePercent24Hr).toFixed(2)}%</td>
+                    <td>${index + 1}</td>
+                    <td><img src="${crypto.image}" alt="${crypto.name}" class="crypto-icon"> ${crypto.name} (${crypto.symbol.toUpperCase()})</td>
+                    <td>$${crypto.current_price.toFixed(2)}</td>
+                    <td>$${crypto.market_cap.toLocaleString()}</td>
+                    <td>$${crypto.total_volume.toLocaleString()}</td>
+                    <td class="${crypto.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}">${crypto.price_change_percentage_24h.toFixed(2)}%</td>
                 `;
                 tableBody.appendChild(row);
 
                 // Preencher o select do conversor
                 const option = document.createElement('option');
                 option.value = crypto.id;
-                option.text = `${crypto.name} (${crypto.symbol})`;
+                option.text = `${crypto.name} (${crypto.symbol.toUpperCase()})`;
                 fromSelect.appendChild(option);
             });
         })
@@ -53,24 +51,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const to = document.getElementById('to').value;
         const amount = document.getElementById('amount').value;
 
-        fetch('/convert', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ from, to, amount }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                document.getElementById('result').innerText = data.error;
-            } else {
+        fetch(`/crypto-details/${from}`)
+            .then(response => response.json())
+            .then(data => {
+                const priceInUSD = data.market_data.current_price.usd;
+                const convertedAmount = amount * priceInUSD;
+
                 document.getElementById('result').innerText = 
-                    `${data.amount} ${data.from} = ${data.converted_amount.toFixed(2)} ${data.to} (Taxa: ${data.rate.toFixed(6)})`;
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
+                    `${amount} ${data.name} = ${convertedAmount.toFixed(2)} ${to.toUpperCase()}`;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
     });
 });

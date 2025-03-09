@@ -10,7 +10,7 @@ body {
     background-color: #f8f9fa;
     color: #333;
     line-height: 1.6;
-    padding: 20px;
+    padding: 0;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -19,11 +19,49 @@ body.dark-mode {
     color: #e0e0e0;
 }
 
-.dashboard {
+/* Header */
+.header {
+    background-color: #2c3e50;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
     max-width: 1200px;
     margin: 0 auto;
-    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.nav-link.active {
+    border-bottom: 2px solid #fff;
+}
+
+/* Conteúdo Principal */
+.dashboard {
+    max-width: 1200px;
+    margin: 2rem auto;
     padding: 2rem;
+    background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, color 0.3s;
@@ -34,23 +72,7 @@ body.dark-mode .dashboard {
     color: #e0e0e0;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-h1, h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s;
-}
-
-body.dark-mode h1, body.dark-mode h2 {
-    color: #e0e0e0;
-}
-
+/* Tabela de Criptomoedas */
 .crypto-table {
     margin-bottom: 3rem;
 }
@@ -94,6 +116,7 @@ body.dark-mode tr:hover {
     background-color: #333;
 }
 
+/* Conversor de Criptomoedas */
 .converter {
     background: #f9f9f9;
     padding: 2rem;
@@ -175,6 +198,23 @@ body.dark-mode .result {
     color: #e0e0e0;
 }
 
+/* Página de Pesquisa */
+.search-section {
+    margin-bottom: 3rem;
+}
+
+.search-result {
+    margin-top: 1.5rem;
+    font-size: 16px;
+    color: #2c3e50;
+    transition: color 0.3s;
+}
+
+body.dark-mode .search-result {
+    color: #e0e0e0;
+}
+
+/* Botão de Alternância de Tema */
 .theme-toggle button {
     padding: 10px 20px;
     background-color: #2c3e50;
@@ -197,4 +237,42 @@ body.dark-mode .theme-toggle button {
 
 body.dark-mode .theme-toggle button:hover {
     background-color: #2c3e50;
+}
+
+.crypto-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+.language-selector {
+    margin-left: 1.5rem;
+}
+
+.language-selector label {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.language-selector select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+body.dark-mode .language-selector select {
+    background-color: #2c3e50;
+    color: #e0e0e0;
+    border-color: #444;
 }

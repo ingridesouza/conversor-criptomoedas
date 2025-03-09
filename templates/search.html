@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar Criptomoeda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>CryptoTracker</h1>
+            <nav>
+                <a href="/" class="nav-link">Início</a>
+                <a href="/search" class="nav-link active">Pesquisar Criptomoeda</a>
+            </nav>
+            <div class="language-selector">
+                <label for="language">Idioma:</label>
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="pt">Português</option>
+                </select>
+            </div>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn">🌙 Modo Noturno</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="dashboard">
+        <section class="search-section">
+            <h2>Pesquisar Criptomoeda</h2>
+            <form id="search-form">
+                <div class="form-group">
+                    <label for="search">Nome ou Símbolo:</label>
+                    <input type="text" id="search" name="search" placeholder="Ex: Bitcoin ou BTC" required>
+                </div>
+                <button type="submit">Pesquisar</button>
+            </form>
+
+            <div id="search-result" class="search-result"></div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+</body>
+</html>
