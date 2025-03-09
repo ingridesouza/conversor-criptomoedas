@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisar Criptomoeda</title>
+    <title data-translate="search">Pesquisar Criptomoeda</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <h1>CryptoTracker</h1>
             <nav>
-                <a href="/" class="nav-link">Início</a>
-                <a href="/search" class="nav-link active">Pesquisar Criptomoeda</a>
+                <a href="/" class="nav-link" data-translate="home">Início</a>
+                <a href="/search" class="nav-link active" data-translate="search">Pesquisar Criptomoeda</a>
             </nav>
             <div class="language-selector">
-                <label for="language">Idioma:</label>
+                <label for="language" data-translate="language">Idioma:</label>
                 <select id="language">
                     <option value="en">English</option>
                     <option value="pt">Português</option>
                 </select>
             </div>
             <div class="theme-toggle">
-                <button id="theme-toggle-btn">🌙 Modo Noturno</button>
+                <button id="theme-toggle-btn" data-translate="theme">🌙 Modo Noturno</button>
             </div>
         </div>
     </header>
@@ -31,13 +32,13 @@
     <!-- Conteúdo Principal -->
     <div class="dashboard">
         <section class="search-section">
-            <h2>Pesquisar Criptomoeda</h2>
+            <h2 data-translate="search">Pesquisar Criptomoeda</h2>
             <form id="search-form">
                 <div class="form-group">
-                    <label for="search">Nome ou Símbolo:</label>
+                    <label for="search" data-translate="search_label">Nome ou Símbolo:</label>
                     <input type="text" id="search" name="search" placeholder="Ex: Bitcoin ou BTC" required>
                 </div>
-                <button type="submit">Pesquisar</button>
+                <button type="submit" data-translate="search_button">Pesquisar</button>
             </form>
 
             <div id="search-result" class="search-result"></div>

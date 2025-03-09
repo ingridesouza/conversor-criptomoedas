@@ -1,0 +1,28 @@
+{
+    "en": {
+      "home": "Home",
+      "search": "Search Cryptocurrency",
+      "language": "Language",
+      "theme": "Dark Mode",
+      "search_label": "Name or Symbol:",
+      "search_button": "Search",
+      "description": "Description",
+      "price": "Price",
+      "market_cap": "Market Cap",
+      "volume_24h": "Volume (24h)",
+      "change_24h": "Change (24h)"
+    },
+    "pt": {
+      "home": "Início",
+      "search": "Pesquisar Criptomoeda",
+      "language": "Idioma",
+      "theme": "Modo Noturno",
+      "search_label": "Nome ou Símbolo:",
+      "search_button": "Pesquisar",
+      "description": "Descrição",
+      "price": "Preço",
+      "market_cap": "Capitalização",
+      "volume_24h": "Volume (24h)",
+      "change_24h": "Variação (24h)"
+    }
+  }

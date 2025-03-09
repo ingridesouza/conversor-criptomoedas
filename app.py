@@ -89,5 +89,11 @@ def crypto_details(crypto_id):
 def search():
     return render_template('search.html')
 
+from flask import send_from_directory
+
+@app.route('/static/translations.json')
+def serve_translations():
+    return send_from_directory('static', 'translations.json')
+
 if __name__ == '__main__':
     app.run(debug=True)
