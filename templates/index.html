@@ -5,46 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversor de Criptomoedas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Conversor de Criptomoedas</h1>
-        <form id="converter-form">
-            <label for="from">De:</label>
-            <select id="from" name="from">
-                <option value="bitcoin">Bitcoin (BTC)</option>
-                <option value="ethereum">Ethereum (ETH)</option>
-                <option value="xrp">Ripple (XRP)</option>  <!-- ID correto: xrp -->
-                <option value="litecoin">Litecoin (LTC)</option>
-                <option value="cardano">Cardano (ADA)</option>
-                <option value="polkadot">Polkadot (DOT)</option>
-                <option value="chainlink">Chainlink (LINK)</option>
-                <option value="stellar">Stellar (XLM)</option>
-                <option value="dogecoin">Dogecoin (DOGE)</option>
-                <option value="binance-coin">Binance Coin (BNB)</option>
-            </select>
+    <div class="dashboard">
+        <!-- Cabeçalho -->
+        <header class="header">
+            <h1>Conversor de Criptomoedas</h1>
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn">🌙 Modo Noturno</button>
+            </div>
+        </header>
 
-            <label for="to">Para:</label>
-            <select id="to" name="to">
-                <option value="usd">Dólar Americano (USD)</option>
-                <option value="brl">Real Brasileiro (BRL)</option>
-                <option value="eur">Euro (EUR)</option>
-                <option value="jpy">Iene Japonês (JPY)</option>
-                <option value="gbp">Libra Esterlina (GBP)</option>
-                <option value="aud">Dólar Australiano (AUD)</option>
-                <option value="cad">Dólar Canadense (CAD)</option>
-                <option value="chf">Franco Suíço (CHF)</option>
-                <option value="cny">Yuan Chinês (CNY)</option>
-                <option value="inr">Rúpia Indiana (INR)</option>
-            </select>
+        <!-- Tabela de Criptomoedas -->
+        <section class="crypto-table">
+            <h2>Top 20 Criptomoedas</h2>
+            <div class="table-container">
+                <table id="crypto-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Capitalização</th>
+                            <th>VWAP (24h)</th>
+                            <th>Fornecimento</th>
+                            <th>Volume (24h)</th>
+                            <th>Variação (24h)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados serão preenchidos via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-            <label for="amount">Quantidade:</label>
-            <input type="number" id="amount" name="amount" step="0.00000001" required>
+        <!-- Conversor de Criptomoedas -->
+        <section class="converter">
+            <h2>Conversor</h2>
+            <form id="converter-form">
+                <div class="form-group">
+                    <label for="from">De:</label>
+                    <select id="from" name="from">
+                        <!-- Opções serão preenchidas via JavaScript -->
+                    </select>
+                </div>
 
-            <button type="submit">Converter</button>
-        </form>
+                <div class="form-group">
+                    <label for="to">Para:</label>
+                    <select id="to" name="to">
+                        <option value="usd">Dólar Americano (USD)</option>
+                        <option value="brl">Real Brasileiro (BRL)</option>
+                        <option value="eur">Euro (EUR)</option>
+                        <option value="jpy">Iene Japonês (JPY)</option>
+                        <option value="gbp">Libra Esterlina (GBP)</option>
+                        <option value="aud">Dólar Australiano (AUD)</option>
+                        <option value="cad">Dólar Canadense (CAD)</option>
+                        <option value="chf">Franco Suíço (CHF)</option>
+                        <option value="cny">Yuan Chinês (CNY)</option>
+                        <option value="inr">Rúpia Indiana (INR)</option>
+                    </select>
+                </div>
 
-        <div id="result" class="result"></div>
+                <div class="form-group">
+                    <label for="amount">Quantidade:</label>
+                    <input type="number" id="amount" name="amount" step="0.00000001" required>
+                </div>
+
+                <button type="submit">Converter</button>
+            </form>
+
+            <div id="result" class="result"></div>
+        </section>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

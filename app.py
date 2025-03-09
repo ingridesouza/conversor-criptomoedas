@@ -84,5 +84,17 @@ def convert():
         print("Erro:", e)  # Log do erro
         return jsonify({"error": str(e)}), 500
 
+@app.route('/get-top-cryptos')
+def get_top_cryptos():
+    try:
+        response = requests.get(f"{API_URL}/assets?limit=20", headers=headers)
+        if response.status_code != 200:
+            return jsonify({"error": "Erro ao buscar criptomoedas"}), 400
+
+        cryptos = response.json()['data']
+        return jsonify(cryptos)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)
