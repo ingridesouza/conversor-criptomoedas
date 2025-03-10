@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CryptoTracker{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1 data-translate="dashboard_title">Dashboard</h1>
+    <p data-translate="dashboard_welcome">Bem-vindo ao seu painel de controle. Aqui você pode visualizar informações importantes sobre suas criptomoedas.</p>
+
+    <!-- Gráfico de Pizza (Market Cap) -->
+    <div class="chart-container">
+        <h2 data-translate="market_cap_distribution">Distribuição de Market Cap</h2>
+        <canvas id="marketCapChart"></canvas>
+    </div>
+
+    <!-- Gráfico de Barras (Preço das Criptomoedas) -->
+    <div class="chart-container">
+        <h2 data-translate="crypto_prices">Preço das Criptomoedas</h2>
+        <canvas id="priceChart"></canvas>
+    </div>
+
+    <!-- Gráfico de Linhas (Variação de Preço em 24h) -->
+    <div class="chart-container">
+        <h2 data-translate="price_change_24h">Variação de Preço em 24h</h2>
+        <canvas id="priceChangeChart"></canvas>
+    </div>
+
+    <!-- Gráfico de Dispersão (Volume vs. Market Cap) -->
+    <div class="chart-container">
+        <h2 data-translate="volume_vs_market_cap">Volume vs. Market Cap</h2>
+        <canvas id="volumeMarketCapChart"></canvas>
+    </div>
+</div>
+
+<!-- Spinner de Carregamento -->
+<div id="loading-spinner" class="spinner"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Função para carregar os dados das criptomoedas
+    async function loadCryptoData() {
+        try {
+            const response = await fetch('/get-top-cryptos');
+            const data = await response.json();
+            renderCharts(data);
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+        } finally {
+            // Ocultar o spinner após carregar os dados
+            document.getElementById('loading-spinner').style.display = 'none';
+        }
+    }
+
+    // Função para renderizar os gráficos
+    function renderCharts(cryptos) {
+        const labels = cryptos.map(crypto => crypto.name);
+        const marketCaps = cryptos.map(crypto => crypto.market_cap);
+        const prices = cryptos.map(crypto => crypto.current_price);
+        const priceChanges = cryptos.map(crypto => crypto.price_change_percentage_24h);
+        const volumes = cryptos.map(crypto => crypto.total_volume);
+
+        // Gráfico de Pizza (Market Cap)
+        new Chart(document.getElementById('marketCapChart'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: marketCaps,
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                        '#FF9F40', '#FFCD56', '#C9CBCF', '#4D5360', '#F7464A'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Barras (Preço das Criptomoedas)
+        new Chart(document.getElementById('priceChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Preço (USD)',
+                    data: prices,
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Linhas (Variação de Preço em 24h)
+        new Chart(document.getElementById('priceChangeChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Variação (%)',
+                    data: priceChanges,
+                    borderColor: '#FF6384',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Dispersão (Volume vs. Market Cap)
+        new Chart(document.getElementById('volumeMarketCapChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Volume vs. Market Cap',
+                    data: cryptos.map(crypto => ({
+                        x: crypto.market_cap,
+                        y: crypto.total_volume
+                    })),
+                    backgroundColor: '#FFCE56'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Market Cap'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Volume'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Carregar os dados ao abrir a página
+    loadCryptoData();
+</script>
+{% endblock %}

@@ -95,5 +95,9 @@ from flask import send_from_directory
 def serve_translations():
     return send_from_directory('static', 'translations.json')
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
