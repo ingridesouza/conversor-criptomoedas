@@ -1,18 +1,34 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Alternar entre modo claro e noturno
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const body = document.body;
 
+    // Verificar o tema salvo no localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark-mode') {
+        body.classList.add('dark-mode');
+        themeToggleBtn.textContent = '☀️ Modo Claro';
+    } else {
+        themeToggleBtn.textContent = '🌙 Modo Noturno';
+    }
+
+    // Alternar entre modo claro e noturno
     themeToggleBtn.addEventListener('click', function () {
         body.classList.toggle('dark-mode');
-        if (body.classList.contains('dark-mode')) {
-            themeToggleBtn.textContent = '☀️ Modo Claro';
+        const isDarkMode = body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark-mode' : 'light-mode');
+
+        // Atualizar o texto do botão de tema
+        const currentLanguage = localStorage.getItem('language') || 'en';
+        if (isDarkMode) {
+            themeToggleBtn.textContent = '☀️ ' + translations[currentLanguage].theme;
         } else {
-            themeToggleBtn.textContent = '🌙 Modo Noturno';
+            themeToggleBtn.textContent = '🌙 ' + translations[currentLanguage].theme;
         }
     });
 
-    // Buscar a lista de criptomoedas ao carregar a página
+    // Buscar a lista de criptomoedas
     fetch('/get-top-cryptos')
         .then(response => response.json())
         .then(data => {
@@ -32,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 `;
                 tableBody.appendChild(row);
 
-                // Preencher o select do conversor
+                // Preencher o seletor do conversor
                 const option = document.createElement('option');
                 option.value = crypto.id;
                 option.text = `${crypto.name} (${crypto.symbol.toUpperCase()})`;
@@ -51,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const to = document.getElementById('to').value;
         const amount = document.getElementById('amount').value;
 
-        fetch(`/crypto-details/${from}`)
+        fetch(`/crypto/${from}`)
             .then(response => response.json())
             .then(data => {
                 const priceInUSD = data.market_data.current_price.usd;

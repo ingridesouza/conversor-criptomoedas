@@ -1,90 +1,54 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoTracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1>CryptoTracker</h1>
-            <nav>
-                <a href="/" class="nav-link">Início</a>
-                <a href="/search" class="nav-link">Pesquisar Criptomoeda</a>
-            </nav>
-            <div class="theme-toggle">
-                <button id="theme-toggle-btn">🌙 Modo Noturno</button>
-            </div>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <!-- Conteúdo Principal -->
+{% block content %}
     <div class="dashboard">
-        <!-- Tabela de Criptomoedas -->
-        <section class="crypto-table">
-            <h2>Top 20 Criptomoedas</h2>
-            <div class="table-container">
-                <table id="crypto-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nome</th>
-                            <th>Preço (USD)</th>
-                            <th>Capitalização</th>
-                            <th>Volume (24h)</th>
-                            <th>Variação (24h)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dados serão preenchidos via JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+        <section class="crypto-list">
+            <h2 data-translate="top_cryptos">Top Criptomoedas</h2>
+            <table id="crypto-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th data-translate="name">Nome</th>
+                        <th data-translate="price">Preço</th>
+                        <th data-translate="market_cap">Capitalização</th>
+                        <th data-translate="volume_24h">Volume (24h)</th>
+                        <th data-translate="change_24h">Variação (24h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As linhas serão preenchidas pelo script.js -->
+                </tbody>
+            </table>
         </section>
 
-        <!-- Conversor de Criptomoedas -->
         <section class="converter">
-            <h2>Conversor</h2>
+            <h2 data-translate="converter">Conversor</h2>
             <form id="converter-form">
                 <div class="form-group">
-                    <label for="from">De:</label>
-                    <select id="from" name="from">
-                        <!-- Opções serão preenchidas via JavaScript -->
+                    <label for="from" data-translate="from">De:</label>
+                    <select id="from" required>
+                        <!-- As opções serão preenchidas pelo script.js -->
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="to">Para:</label>
-                    <select id="to" name="to">
-                        <option value="usd">Dólar Americano (USD)</option>
-                        <option value="brl">Real Brasileiro (BRL)</option>
-                        <option value="eur">Euro (EUR)</option>
-                        <option value="jpy">Iene Japonês (JPY)</option>
-                        <option value="gbp">Libra Esterlina (GBP)</option>
-                        <option value="aud">Dólar Australiano (AUD)</option>
-                        <option value="cad">Dólar Canadense (CAD)</option>
-                        <option value="chf">Franco Suíço (CHF)</option>
-                        <option value="cny">Yuan Chinês (CNY)</option>
-                        <option value="inr">Rúpia Indiana (INR)</option>
+                    <label for="to" data-translate="to">Para:</label>
+                    <select id="to" required>
+                        <option value="usd">USD</option>
+                        <option value="brl">BRL</option>
+                        <option value="eur">EUR</option>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="amount">Quantidade:</label>
-                    <input type="number" id="amount" name="amount" step="0.00000001" required>
+                    <label for="amount" data-translate="amount">Quantidade:</label>
+                    <input type="number" id="amount" step="0.01" required>
                 </div>
-
-                <button type="submit">Converter</button>
+                <button type="submit" data-translate="convert">Converter</button>
             </form>
-
-            <div id="result" class="result"></div>
+            <div id="result"></div>
         </section>
     </div>
+{% endblock %}
 
+{% block scripts %}
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+{% endblock %}

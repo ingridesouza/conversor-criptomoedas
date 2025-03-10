@@ -10,7 +10,13 @@
       "price": "Price",
       "market_cap": "Market Cap",
       "volume_24h": "Volume (24h)",
-      "change_24h": "Change (24h)"
+      "change_24h": "Change (24h)",
+      "converter": "Converter",
+      "from": "From:",
+      "to": "To:",
+      "amount": "Amount:",
+      "convert": "Convert",
+      "footer": "© 2023 CryptoTracker. All rights reserved."
     },
     "pt": {
       "home": "Início",
@@ -23,6 +29,31 @@
       "price": "Preço",
       "market_cap": "Capitalização",
       "volume_24h": "Volume (24h)",
-      "change_24h": "Variação (24h)"
+      "change_24h": "Variação (24h)",
+      "converter": "Conversor",
+      "from": "De:",
+      "to": "Para:",
+      "amount": "Quantidade:",
+      "convert": "Converter",
+      "footer": "© 2023 CryptoTracker. Todos os direitos reservados."
+    },
+    "fr": {
+      "home": "Accueil",
+      "search": "Rechercher Cryptomonnaie",
+      "language": "Langue",
+      "theme": "Mode Sombre",
+      "search_label": "Nom ou Symbole :",
+      "search_button": "Rechercher",
+      "description": "Description",
+      "price": "Prix",
+      "market_cap": "Capitalisation",
+      "volume_24h": "Volume (24h)",
+      "change_24h": "Changement (24h)",
+      "converter": "Convertisseur",
+      "from": "De :",
+      "to": "À :",
+      "amount": "Quantité :",
+      "convert": "Convertir",
+      "footer": "© 2023 CryptoTracker. Tous droits réservés."
     }
   }
