@@ -362,3 +362,29 @@ canvas {
     max-width: 100%;
     height: 300px !important; /* Altura fixa para todos os gráficos */
 }
+
+/* Estilos para os controles de filtro e ordenação */
+.controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filter, .sort {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter label, .sort label {
+    font-weight: 500;
+    color: #333;
+}
+
+.filter select, .sort select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 14px;
+}

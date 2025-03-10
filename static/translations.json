@@ -17,7 +17,20 @@
       "amount": "Amount:",
       "convert": "Convert",
       "footer": "© 2023 CryptoTracker. All rights reserved.",
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "filter": "Filter by:",
+      "all": "All",
+      "top10": "Top 10",
+      "top20": "Top 20",
+      "stablecoins": "Stablecoins",
+      "defi": "DeFi",
+      "sort": "Sort by:",
+      "market_cap_desc": "Market Cap (High to Low)",
+      "market_cap_asc": "Market Cap (Low to High)",
+      "price_desc": "Price (High to Low)",
+      "price_asc": "Price (Low to High)",
+      "volume_desc": "Volume (High to Low)",
+      "volume_asc": "Volume (Low to High)"
     },
     "pt": {
       "home": "Início",
@@ -37,7 +50,20 @@
       "amount": "Quantidade:",
       "convert": "Converter",
       "footer": "© 2023 CryptoTracker. Todos os direitos reservados.",
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "filter": "Filtrar por:",
+        "all": "Todas",
+        "top10": "Top 10",
+        "top20": "Top 20",
+        "stablecoins": "Stablecoins",
+        "defi": "DeFi",
+        "sort": "Ordenar por:",
+        "market_cap_desc": "Market Cap (Maior para Menor)",
+        "market_cap_asc": "Market Cap (Menor para Maior)",
+        "price_desc": "Preço (Maior para Menor)",
+        "price_asc": "Preço (Menor para Maior)",
+        "volume_desc": "Volume (Maior para Menor)",
+        "volume_asc": "Volume (Menor para Maior)"
     },
     "fr": {
       "home": "Accueil",
