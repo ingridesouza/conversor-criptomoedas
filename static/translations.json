@@ -16,7 +16,8 @@
       "to": "To:",
       "amount": "Amount:",
       "convert": "Convert",
-      "footer": "© 2023 CryptoTracker. All rights reserved."
+      "footer": "© 2023 CryptoTracker. All rights reserved.",
+      "dashboard": "Dashboard"
     },
     "pt": {
       "home": "Início",
@@ -35,7 +36,8 @@
       "to": "Para:",
       "amount": "Quantidade:",
       "convert": "Converter",
-      "footer": "© 2023 CryptoTracker. Todos os direitos reservados."
+      "footer": "© 2023 CryptoTracker. Todos os direitos reservados.",
+      "dashboard": "Dashboard"
     },
     "fr": {
       "home": "Accueil",
@@ -54,6 +56,7 @@
       "to": "À :",
       "amount": "Quantité :",
       "convert": "Convertir",
-      "footer": "© 2023 CryptoTracker. Tous droits réservés."
+      "footer": "© 2023 CryptoTracker. Tous droits réservés.",
+      "dashboard": "Tableau de bord"
     }
   }
