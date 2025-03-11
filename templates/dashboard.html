@@ -3,17 +3,13 @@
 {% block title %}Dashboard - CryptoTracker{% endblock %}
 
 {% block content %}
-<div class="dashboard-container">
-    <!-- Cabeçalho Moderno e Profissional -->
-    <div class="dashboard-header">
-        <h1 data-translate="dashboard_title">CryptoTracker Dashboard</h1>
-        <p class="dashboard-subtitle" data-translate="dashboard_welcome">
-            Gerencie suas criptomoedas com precisão e confiança. Nosso painel de controle oferece insights poderosos e em tempo real para ajudá-lo a tomar decisões informadas no mercado de criptomoedas.
-        </p>
-        <p class="dashboard-description" data-translate="dashboard_description">
-            Explore gráficos detalhados, acompanhe tendências de mercado e monitore o desempenho das principais criptomoedas. Tudo em um só lugar, projetado para investidores como você.
-        </p>
-    </div>
+<!-- Header do Dashboard (fora do container) -->
+<div class="dashboard-header">
+    <h1>CryptoTracker Dashboard</h1>
+    <p class="dashboard-description">
+        Explore gráficos detalhados, acompanhe tendências de mercado e monitore o desempenho das principais criptomoedas. Tudo em um só lugar, projetado para investidores como você.
+    </p>
+</div>
 
     <!-- Grade de Gráficos -->
     <div class="dashboard-grid">
@@ -41,7 +37,6 @@
             <canvas id="volumeMarketCapChart"></canvas>
         </div>
     </div>
-</div>
 
 <!-- Spinner de Carregamento -->
 <div id="loading-spinner" class="spinner"></div>

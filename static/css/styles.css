@@ -352,39 +352,24 @@ body.dark-mode .language-selector select:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* Estilos para o Dashboard */
-.dashboard-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 /* Estilos para o cabeçalho do Dashboard */
 .dashboard-header {
     text-align: center;
     margin-bottom: 40px;
     padding: 80px 20px; /* Aumentar o padding para mais destaque */
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(52, 73, 94, 0.9)); /* Gradiente sutil */
+    background: linear-gradient(135deg, #4c6277, #0A1F3D); /* Novo gradiente */
     color: #fff;
     width: 100%; /* Ocupar a largura total */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: 3em; /* Aumentar o tamanho da fonte */
+    margin-bottom: 20px; /* Mais espaçamento */
     font-weight: 700;
+    letter-spacing: -1px; /* Ajustar o espaçamento das letras */
 }
 
-.dashboard-subtitle {
-    font-size: 1.5em; /* Aumentar o tamanho da fonte */
-    margin-bottom: 25px; /* Mais espaçamento */
-    font-weight: 400;
-    line-height: 1.6;
-    max-width: 800px; /* Limitar a largura do texto para melhor legibilidade */
-    margin-left: auto;
-    margin-right: auto;
-}
 
 .dashboard-description {
     font-size: 1.1em; /* Aumentar o tamanho da fonte */
@@ -396,11 +381,19 @@ body.dark-mode .language-selector select:focus {
     margin-right: auto;
 }
 
+/* Estilos para o Dashboard */
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px; /* Limitar a largura do conteúdo interno */
+    margin: 0 auto; /* Centralizar o container */
+}
+
 /* Layout de grade para os gráficos */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Duas colunas */
     gap: 20px; /* Espaçamento entre os gráficos */
+    padding: 20px;
 }
 
 /* Estilos para os contêineres dos gráficos */
