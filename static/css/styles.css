@@ -393,7 +393,7 @@ body.dark-mode .language-selector select:focus {
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* Duas colunas */
     gap: 20px; /* Espaçamento entre os gráficos */
-    padding: 20px;
+    padding: 40px; /* Adicionar padding apenas na seção dos gráficos */
 }
 
 /* Estilos para os contêineres dos gráficos */
