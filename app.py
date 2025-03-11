@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
+from flask_caching import Cache
 
 app = Flask(__name__)
+
+# Configuração do cache
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 # Chave da CoinGecko API
 COINGECKO_API_KEY = "CG-MFhwUmeQazhPGr2GYFafttYy"
@@ -19,6 +23,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/get-top-cryptos')
+@cache.cached(timeout=60)  # Cache por 60 segundos
 def get_top_cryptos():
     try:
         # Buscar as 20 principais criptomoedas
@@ -73,6 +78,7 @@ def convert():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/crypto/<crypto_id>')
+@cache.cached(timeout=60)  # Cache por 60 segundos
 def crypto_details(crypto_id):
     try:
         # Buscar informações detalhadas da criptomoeda
@@ -88,8 +94,6 @@ def crypto_details(crypto_id):
 @app.route('/search')
 def search():
     return render_template('search.html')
-
-from flask import send_from_directory
 
 @app.route('/static/translations.json')
 def serve_translations():
