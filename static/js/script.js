@@ -88,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Atualizar os dados das criptomoedas imediatamente e a cada 60 segundos
+    // Atualizar os dados das criptomoedas imediatamente e a cada 30 segundos
     updateCryptoData();
-    setInterval(updateCryptoData, 3000); // 60 segundos
+    setInterval(updateCryptoData, 30000); // 30 segundos
 
     // Configurar o conversor
     document.getElementById('converter-form').addEventListener('submit', function (e) {
