@@ -336,6 +336,37 @@ body.dark-mode .language-selector select:focus {
     margin: 0 auto;
 }
 
+/* Estilos para o cabeçalho do Dashboard */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.dashboard-subtitle {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.dashboard-description {
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
 /* Layout de grade para os gráficos */
 .dashboard-grid {
     display: grid;
