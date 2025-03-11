@@ -44,7 +44,9 @@
       "xrp": "XRP",
       "bnb": "BNB",
       "solana": "Solana",
-      "usdc": "USDC"
+      "usdc": "USDC",
+      "variation_percent": "Change (%)",
+      "price_usd": "Price (USD)"
   },
   "pt": {
       "home": "Início",
@@ -91,7 +93,9 @@
       "xrp": "XRP",
       "bnb": "BNB",
       "solana": "Solana",
-      "usdc": "USDC"
+      "usdc": "USDC",
+      "variation_percent": "Variação (%)",
+      "price_usd": "Preço (USD)"
   },
   "fr": {
       "home": "Accueil",
@@ -138,6 +142,8 @@
       "xrp": "XRP",
       "bnb": "BNB",
       "solana": "Solana",
-      "usdc": "USDC"
+      "usdc": "USDC",
+      "variation_percent": "Variation (%)",
+      "price_usd": "Prix (USD)"
   }
 }
