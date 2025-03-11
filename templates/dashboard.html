@@ -4,8 +4,16 @@
 
 {% block content %}
 <div class="dashboard-container">
-    <h1 data-translate="dashboard_title">Dashboard</h1>
-    <p data-translate="dashboard_welcome">Bem-vindo ao seu painel de controle. Aqui você pode visualizar informações importantes sobre suas criptomoedas.</p>
+    <!-- Cabeçalho Moderno e Profissional -->
+    <div class="dashboard-header">
+        <h1 data-translate="dashboard_title">CryptoTracker Dashboard</h1>
+        <p class="dashboard-subtitle" data-translate="dashboard_welcome">
+            Gerencie suas criptomoedas com precisão e confiança. Nosso painel de controle oferece insights poderosos e em tempo real para ajudá-lo a tomar decisões informadas no mercado de criptomoedas.
+        </p>
+        <p class="dashboard-description" data-translate="dashboard_description">
+            Explore gráficos detalhados, acompanhe tendências de mercado e monitore o desempenho das principais criptomoedas. Tudo em um só lugar, projetado para investidores como você.
+        </p>
+    </div>
 
     <!-- Grade de Gráficos -->
     <div class="dashboard-grid">
@@ -78,6 +86,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'bottom'
@@ -99,6 +108,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -121,6 +131,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -144,6 +155,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     x: {
                         type: 'linear',
