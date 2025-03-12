@@ -2,6 +2,15 @@
 
 {% block content %}
     <div class="dashboard">
+        <!-- Seção de Notificações de Análise de Mercado -->
+        <section class="market-analysis">
+            <h2 data-translate="market_analysis">Análise de Mercado</h2>
+            <div id="notifications">
+                <!-- As notificações serão preenchidas pelo script.js -->
+            </div>
+        </section>
+
+        <!-- Lista de Criptomoedas -->
         <section class="crypto-list">
             <h2 data-translate="top_cryptos">Top Criptomoedas</h2>
             <table id="crypto-table">
@@ -21,6 +30,7 @@
             </table>
         </section>
 
+        <!-- Conversor de Moedas -->
         <section class="converter">
             <h2 data-translate="converter">Conversor</h2>
             <form id="converter-form">

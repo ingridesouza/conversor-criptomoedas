@@ -480,3 +480,27 @@ body.dark-mode .sort select {
     background-color: rgba(240, 146, 160, 0.2); /* Vermelho claro com transparência */
     transition: background-color 0.5s ease;
 }
+
+/* Estilos para notificações */
+.notification {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.notification .positive {
+    color: green;
+}
+
+.notification .negative {
+    color: red;
+}
+
+.error {
+    color: red;
+}
