@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
+import os
 from flask_caching import Cache
 
 app = Flask(__name__)
@@ -12,6 +13,10 @@ COINGECKO_API_KEY = "CG-MFhwUmeQazhPGr2GYFafttYy"
 
 # URL base da CoinGecko API
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
+
+# Chave da API da DeepSeek
+DEEPSEEK_API_KEY = os.getenv("API_DEEPSEEK")
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/analyze"  # Exemplo de URL da API DeepSeek
 
 # Cabeçalho para autenticação (opcional, pois a CoinGecko não requer autenticação para uso básico)
 headers = {
@@ -102,6 +107,40 @@ def serve_translations():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/analyze-market')
+def analyze_market():
+    try:
+        # Buscar as 20 principais criptomoedas
+        response = requests.get(
+            f"{COINGECKO_API_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false",
+            headers=headers
+        )
+        if response.status_code != 200:
+            return jsonify({"error": "Erro ao buscar criptomoedas"}), 400
+
+        cryptos = response.json()
+
+        # Preparar os dados para enviar à API da DeepSeek
+        crypto_data = [{"id": crypto["id"], "name": crypto["name"], "price": crypto["current_price"]} for crypto in cryptos]
+
+        # Enviar os dados para a API da DeepSeek para análise
+        deepseek_response = requests.post(
+            DEEPSEEK_API_URL,
+            headers={"Authorization": f"Bearer {DEEPSEEK_API_KEY}"},
+            json={"cryptos": crypto_data}
+        )
+
+        if deepseek_response.status_code != 200:
+            return jsonify({"error": "Erro ao analisar criptomoedas"}), 400
+
+        analysis_result = deepseek_response.json()
+
+        # Retornar as recomendações
+        return jsonify(analysis_result)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
