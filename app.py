@@ -16,7 +16,7 @@ COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 
 # Chave da API da DeepSeek
 DEEPSEEK_API_KEY = os.getenv("API_DEEPSEEK")
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1/analyze"  # Exemplo de URL da API DeepSeek
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1"  # Exemplo de URL da API DeepSeek
 
 # Cabeçalho para autenticação (opcional, pois a CoinGecko não requer autenticação para uso básico)
 headers = {

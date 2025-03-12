@@ -147,4 +147,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Erro:', error);
             });
     });
+
+    function fetchMarketAnalysis() {
+        fetch('/analyze-market')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar análise de mercado');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const notificationsDiv = document.getElementById('notifications');
+                notificationsDiv.innerHTML = ''; // Limpa as notificações antes de preencher
+    
+                if (data.error) {
+                    notificationsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                    return;
+                }
+    
+                // Exibir as recomendações
+                data.recommendations.forEach(recommendation => {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.innerHTML = `
+                        <p><strong>${recommendation.name}</strong>: ${recommendation.action} a $${recommendation.price.toFixed(2)}</p>
+                        <p>Motivo: ${recommendation.reason}</p>
+                    `;
+                    notificationsDiv.appendChild(notification);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar análise de mercado:', error);
+                const notificationsDiv = document.getElementById('notifications');
+                notificationsDiv.innerHTML = `<p class="error">Erro ao analisar criptomoedas. Tente novamente mais tarde.</p>`;
+            });
+    }
 });
+
