@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             themeToggleBtn.textContent = '🌙 ' + translations[currentLanguage].theme;
         }
     });
+
     // Variável para armazenar os dados anteriores das criptomoedas
     let previousCryptoData = [];
 
@@ -88,9 +89,42 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // Função para buscar e exibir as notificações de análise de mercado
+    function fetchMarketAnalysis() {
+        fetch('/analyze-market')
+            .then(response => response.json())
+            .then(data => {
+                const notificationsDiv = document.getElementById('notifications');
+                notificationsDiv.innerHTML = ''; // Limpa as notificações antes de preencher
+
+                if (data.error) {
+                    notificationsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                    return;
+                }
+
+                // Exibir as recomendações
+                data.recommendations.forEach(recommendation => {
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.innerHTML = `
+                        <p><strong>${recommendation.name}</strong>: ${recommendation.action} a $${recommendation.price.toFixed(2)}</p>
+                        <p>Motivo: ${recommendation.reason}</p>
+                    `;
+                    notificationsDiv.appendChild(notification);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar análise de mercado:', error);
+            });
+    }
+
     // Atualizar os dados das criptomoedas imediatamente e a cada 30 segundos
     updateCryptoData();
     setInterval(updateCryptoData, 30000); // 30 segundos
+
+    // Buscar e exibir as notificações de análise de mercado imediatamente e a cada 60 segundos
+    fetchMarketAnalysis();
+    setInterval(fetchMarketAnalysis, 60000); // 60 segundos
 
     // Configurar o conversor
     document.getElementById('converter-form').addEventListener('submit', function (e) {
