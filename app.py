@@ -59,6 +59,14 @@ initialize_database()
 def index():
     return render_template('index.html')
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/search')
+def search_page():
+    return render_template('search.html')
+
 @app.route('/get-top-cryptos')
 @cache.cached(timeout=60)  # Cache por 60 segundos
 def get_top_cryptos():
