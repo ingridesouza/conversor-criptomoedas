@@ -32,7 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Função para atualizar os dados das criptomoedas
     function updateCryptoData() {
         fetch('/get-top-cryptos')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar criptomoedas');
+                }
+                return response.json();
+            })
             .then(data => {
                 const tableBody = document.querySelector('#crypto-table tbody');
                 const fromSelect = document.getElementById('from');
@@ -89,65 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Função para buscar e exibir as notificações de análise de mercado
-    function fetchMarketAnalysis() {
-        fetch('/analyze-market')
-            .then(response => response.json())
-            .then(data => {
-                const notificationsDiv = document.getElementById('notifications');
-                notificationsDiv.innerHTML = ''; // Limpa as notificações antes de preencher
-
-                if (data.error) {
-                    notificationsDiv.innerHTML = `<p class="error">${data.error}</p>`;
-                    return;
-                }
-
-                // Exibir as recomendações
-                data.recommendations.forEach(recommendation => {
-                    const notification = document.createElement('div');
-                    notification.className = 'notification';
-                    notification.innerHTML = `
-                        <p><strong>${recommendation.name}</strong>: ${recommendation.action} a $${recommendation.price.toFixed(2)}</p>
-                        <p>Motivo: ${recommendation.reason}</p>
-                    `;
-                    notificationsDiv.appendChild(notification);
-                });
-            })
-            .catch(error => {
-                console.error('Erro ao buscar análise de mercado:', error);
-            });
-    }
-
-    // Atualizar os dados das criptomoedas imediatamente e a cada 30 segundos
-    updateCryptoData();
-    setInterval(updateCryptoData, 30000); // 30 segundos
-
-    // Buscar e exibir as notificações de análise de mercado imediatamente e a cada 60 segundos
-    fetchMarketAnalysis();
-    setInterval(fetchMarketAnalysis, 60000); // 60 segundos
-
-    // Configurar o conversor
-    document.getElementById('converter-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const from = document.getElementById('from').value;
-        const to = document.getElementById('to').value;
-        const amount = document.getElementById('amount').value;
-
-        fetch(`/crypto/${from}`)
-            .then(response => response.json())
-            .then(data => {
-                const priceInUSD = data.market_data.current_price.usd;
-                const convertedAmount = amount * priceInUSD;
-
-                document.getElementById('result').innerText = 
-                    `${amount} ${data.name} = ${convertedAmount.toFixed(2)} ${to.toUpperCase()}`;
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-            });
-    });
-
     function fetchMarketAnalysis() {
         fetch('/analyze-market')
             .then(response => {
@@ -162,6 +108,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
                 if (data.error) {
                     notificationsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                    return;
+                }
+    
+                // Verificar se há recomendações
+                if (!data.recommendations || data.recommendations.length === 0) {
+                    notificationsDiv.innerHTML = `<p class="error">Nenhuma recomendação disponível.</p>`;
                     return;
                 }
     
@@ -182,5 +134,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 notificationsDiv.innerHTML = `<p class="error">Erro ao analisar criptomoedas. Tente novamente mais tarde.</p>`;
             });
     }
-});
 
+    // Atualizar os dados das criptomoedas imediatamente e a cada 30 segundos
+    updateCryptoData();
+    setInterval(updateCryptoData, 30000); // 30 segundos
+
+    // Buscar e exibir as notificações de análise de mercado imediatamente e a cada 60 segundos
+    fetchMarketAnalysis();
+    setInterval(fetchMarketAnalysis, 60000); // 60 segundos
+
+    // Configurar o conversor
+    document.getElementById('converter-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        const amount = document.getElementById('amount').value;
+
+        fetch(`/crypto/${from}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar dados da criptomoeda');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const priceInUSD = data.market_data.current_price.usd;
+                const convertedAmount = amount * priceInUSD;
+
+                document.getElementById('result').innerText = 
+                    `${amount} ${data.name} = ${convertedAmount.toFixed(2)} ${to.toUpperCase()}`;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('result').innerText = 'Erro ao converter moeda. Tente novamente.';
+            });
+    });
+});
