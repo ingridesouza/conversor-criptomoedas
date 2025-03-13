@@ -8,17 +8,19 @@ app = Flask(__name__)
 # Configuração do cache
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-# Chave da CoinGecko API
-COINGECKO_API_KEY = "CG-MFhwUmeQazhPGr2GYFafttYy"
+# Chave da CoinGecko API (obtida da variável de ambiente)
+COINGECKO_API_KEY = os.getenv("API_COINGECKO")
 
 # URL base da CoinGecko API
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 
-# Chave da API da DeepSeek
+# Chave da API da DeepSeek (obtida da variável de ambiente)
 DEEPSEEK_API_KEY = os.getenv("API_DEEPSEEK")
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1"  # Exemplo de URL da API DeepSeek
 
-# Cabeçalho para autenticação (opcional, pois a CoinGecko não requer autenticação para uso básico)
+# URL base da API da DeepSeek
+DEEPSEEK_API_URL = "https://api.deepseek.com"  # Exemplo de URL da API DeepSeek
+
+# Cabeçalho para autenticação
 headers = {
     "x-cg-demo-api-key": COINGECKO_API_KEY
 }
@@ -140,6 +142,7 @@ def analyze_market():
         return jsonify(analysis_result)
 
     except Exception as e:
+        print(f"Erro ao analisar mercado: {str(e)}")  # Log do erro
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
