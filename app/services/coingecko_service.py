@@ -1,4 +1,5 @@
 import requests
+from flask import jsonify  # Adicione esta linha para importar jsonify
 from app.utils.database import get_db_connection
 from flask import current_app
 
