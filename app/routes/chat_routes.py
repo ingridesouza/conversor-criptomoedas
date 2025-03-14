@@ -3,7 +3,6 @@ from app.services.deepseek_service import DeepSeekService
 import logging
 
 # Configuração de logs
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 chat_bp = Blueprint('chat', __name__)
@@ -12,7 +11,7 @@ chat_bp = Blueprint('chat', __name__)
 def get_bot_response():
     try:
         logger.debug("Recebendo mensagem do usuário...")
-        user_message = request.json.get('message')
+        user_message = request.json.get('message', '').strip()
         if not user_message:
             logger.warning("Mensagem do usuário está vazia.")
             return jsonify({"response": "Por favor, envie uma mensagem válida."}), 400

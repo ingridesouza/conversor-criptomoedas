@@ -38,10 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({ message: message }),
             });
 
+            if (!response.ok) {
+                throw new Error(`Erro no servidor: ${response.status}`);
+            }
+
             const data = await response.json();
             addMessage(data.response, "bot-message");
         } catch (error) {
-            addMessage("Erro ao conectar com o servidor.", "bot-message");
+            addMessage(`Erro ao conectar com o servidor: ${error.message}`, "bot-message");
         }
 
         userInput.value = "";

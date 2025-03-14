@@ -3,13 +3,12 @@ from flask import current_app
 import logging
 
 # Configuração de logs
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 class DeepSeekService:
     def __init__(self):
-        self.api_key = current_app.config['DEEPSEEK_API_KEY']
-        self.api_url = current_app.config['DEEPSEEK_API_URL']
+        self.api_key = current_app.config.get('DEEPSEEK_API_KEY')
+        self.api_url = current_app.config.get('DEEPSEEK_API_URL')
 
     def get_bot_response(self, user_message):
         headers = {
@@ -32,7 +31,12 @@ class DeepSeekService:
             logger.debug(f"Resposta da API do DeepSeek: {response.status_code}")
 
             if response.status_code == 200:
-                return response.json()['choices'][0]['message']['content']
+                response_data = response.json()
+                if 'choices' in response_data and len(response_data['choices']) > 0:
+                    return response_data['choices'][0]['message']['content']
+                else:
+                    logger.error("Resposta da API do DeepSeek não contém 'choices'.")
+                    return "Desculpe, ocorreu um erro ao processar sua mensagem."
             else:
                 logger.error(f"Erro na API do DeepSeek: {response.status_code} - {response.text}")
                 return "Desculpe, ocorreu um erro ao processar sua mensagem."
