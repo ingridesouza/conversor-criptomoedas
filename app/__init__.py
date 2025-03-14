@@ -23,4 +23,8 @@ def create_app():
     app.register_blueprint(crypto_bp)
     app.register_blueprint(analysis_bp)
     
+    @app.context_processor
+    def inject_chat():
+        return dict(include_chat=True)
+    
     return app
