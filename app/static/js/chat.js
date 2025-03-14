@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendBtn = document.getElementById("send-btn");
     const minimizeBtn = document.getElementById("minimize-btn");
     const closeBtn = document.getElementById("close-btn");
-    const chatMinimized = document.getElementById("chat-minimized"); // Referência ao elemento da bolinha
-    const openChatBtn = document.getElementById("open-chat-btn"); // Referência ao botão de reabrir o chat
+    const chatMinimized = document.getElementById("chat-minimized");
+    const openChatBtn = document.getElementById("open-chat-btn");
 
     // Envia mensagem ao clicar no botão ou pressionar Enter
     sendBtn.addEventListener("click", sendMessage);
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message", className);
         messageDiv.textContent = text;
-        chatBox.appendChild(messageDiv);
+        document.getElementById("messages").appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 });
