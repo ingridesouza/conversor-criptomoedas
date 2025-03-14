@@ -1,23 +1,37 @@
-<div id="chat-container">
-    <div id="chat-header">
-        <span>Chat de Investimentos</span>
-        <div id="chat-controls">
-            <button id="minimize-btn"><i class="fas fa-minus"></i></button>
-            <button id="close-btn"><i class="fas fa-times"></i></button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat de Investimentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Arquivo CSS -->
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-header">
+            <span>Chat de Investimentos</span>
+            <div id="chat-controls">
+                <button id="minimize-btn"><i class="fas fa-minus"></i></button>
+                <button id="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="chat-box">
+            <div id="messages">
+                <div class="message bot-message">Olá! Sou um especialista em investimentos. Como posso ajudar você hoje?</div>
+            </div>
+        </div>
+        <div id="chat-input">
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." />
+            <button id="send-btn">➤</button>
         </div>
     </div>
-    <div id="chat-box">
-        <div id="messages">
-            <div class="message bot-message">Olá! Sou um especialista em investimentos. Como posso ajudar você hoje?</div>
-        </div>
-    </div>
-    <div id="chat-input">
-        <input type="text" id="user-input" placeholder="Digite sua mensagem..." />
-        <button id="send-btn">➤</button>
-    </div>
-</div>
 
-<!-- Bolinha para reabrir o chat -->
-<div id="chat-minimized">
-    <button id="open-chat-btn">💬</button>
-</div>
+    <!-- Bolinha para reabrir o chat -->
+    <div id="chat-minimized">
+        <button id="open-chat-btn">💬</button>
+    </div>
+
+    <script src="script.js"></script> <!-- Arquivo JavaScript -->
+</body>
+</html>
