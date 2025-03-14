@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendBtn = document.getElementById("send-btn");
     const minimizeBtn = document.getElementById("minimize-btn");
     const closeBtn = document.getElementById("close-btn");
+    const chatMinimized = document.getElementById("chat-minimized"); // Referência ao elemento da bolinha
+    const openChatBtn = document.getElementById("open-chat-btn"); // Referência ao botão de reabrir o chat
 
     // Envia mensagem ao clicar no botão ou pressionar Enter
     sendBtn.addEventListener("click", sendMessage);
@@ -37,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Envia a mensagem para o backend
         try {
-            const response = await fetch("/get-bot-response", {
+            const response = await fetch("/api/get-bot-response", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -65,34 +67,4 @@ document.addEventListener("DOMContentLoaded", function () {
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-
-    async function sendMessage() {
-        const message = userInput.value.trim();
-        if (message === "") return;
-    
-        addMessage(message, "user-message");
-    
-        // Envia a mensagem para o backend
-        try {
-            const response = await fetch("/api/get-bot-response", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ message: message }),
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Erro no servidor: ${response.status}`);
-            }
-    
-            const data = await response.json();
-            addMessage(data.response, "bot-message");
-        } catch (error) {
-            addMessage(`Erro ao conectar com o servidor: ${error.message}`, "bot-message");
-        }
-    
-        userInput.value = "";
-    }
 });
-

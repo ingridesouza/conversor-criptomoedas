@@ -137,6 +137,25 @@
     flex-direction: column;
 }
 
+#chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#chat-controls button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 #chat-box {
     height: 300px;
     overflow-y: auto;
@@ -144,7 +163,7 @@
     border-bottom: 1px solid #ccc;
 }
 
-#chat-controls {
+#chat-input {
     display: flex;
     padding: 10px;
 }
@@ -156,7 +175,7 @@
     border-radius: 5px;
 }
 
-#send-btn, #minimize-btn, #close-btn {
+#send-btn {
     margin-left: 5px;
     padding: 5px 10px;
     border: none;
@@ -164,10 +183,6 @@
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
-}
-
-#close-btn {
-    background-color: #dc3545;
 }
 
 /* Estilo da bolinha minimizada */
