@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeBtn = document.getElementById("close-btn");
     const chatMinimized = document.getElementById("chat-minimized");
     const openChatBtn = document.getElementById("open-chat-btn");
+    const loader = document.getElementById("loader"); // Referência ao loader
 
     // Envia mensagem ao clicar no botão ou pressionar Enter
     sendBtn.addEventListener("click", sendMessage);
@@ -35,7 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const message = userInput.value.trim();
         if (message === "") return;
 
+        // Adiciona a mensagem do usuário ao chat
         addMessage(message, "user-message");
+
+        // Limpa o input imediatamente após o envio
+        userInput.value = "";
+
+        // Exibe o loader
+        loader.style.display = "block";
 
         // Envia a mensagem para o backend
         try {
@@ -55,9 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
             addMessage(data.response, "bot-message");
         } catch (error) {
             addMessage(`Erro ao conectar com o servidor: ${error.message}`, "bot-message");
+        } finally {
+            // Oculta o loader, independentemente de sucesso ou erro
+            loader.style.display = "none";
         }
-
-        userInput.value = "";
     }
 
     function addMessage(text, className) {
@@ -65,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
         messageDiv.classList.add("message", className);
         messageDiv.textContent = text;
         document.getElementById("messages").appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        chatBox.scrollTop = chatBox.scrollHeight; // Rola para a última mensagem
     }
 });

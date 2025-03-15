@@ -171,3 +171,22 @@
 .chat-minimized #chat-minimized {
     display: block;
 }
+
+
+/* Estilo do loader */
+.loader {
+    display: none; /* Inicialmente escondido */
+    border: 4px solid #f3f3f3; /* Cor do círculo externo */
+    border-top: 4px solid #2c3e50; /* Cor do círculo interno */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite; /* Animação de rotação */
+    margin: 10px auto; /* Centraliza o loader */
+}
+
+/* Animação de rotação */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
