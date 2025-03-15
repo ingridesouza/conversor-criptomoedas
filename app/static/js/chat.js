@@ -21,13 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fecha o chat (minimiza para a bolinha)
     closeBtn.addEventListener("click", () => {
-        chatContainer.classList.add("chat-minimized");
+        chatContainer.style.display = "none";
         chatMinimized.style.display = "block";
     });
 
     // Reabre o chat ao clicar na bolinha
     openChatBtn.addEventListener("click", () => {
-        chatContainer.classList.remove("chat-minimized");
+        chatContainer.style.display = "flex";
         chatMinimized.style.display = "none";
     });
 
