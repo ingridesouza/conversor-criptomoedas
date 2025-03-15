@@ -75,13 +75,32 @@
 }
 
 #send-btn {
-    margin-left: 5px;
-    padding: 5px 10px;
+    margin-left: 10px;
+    padding: 8px 15px;
     border: none;
-    background-color: #007bff;
+    background-color: #0056b3; /* Azul mais escuro */
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#send-btn:hover {
+    background-color: #004080; /* Azul mais escuro no hover */
+    transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+}
+
+#send-btn:active {
+    transform: scale(0.95); /* Efeito de clique */
+}
+
+#send-btn i {
+    margin-left: 5px; /* Espaçamento para o ícone (se houver) */
 }
 
 /* Estilo da bolinha minimizada */
