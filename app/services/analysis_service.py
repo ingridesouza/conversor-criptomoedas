@@ -1,50 +1,35 @@
-from app.utils.database import get_db_connection
-from flask import jsonify
 
-def analyze_market():
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM cryptos ORDER BY timestamp DESC LIMIT 20')
-        cryptos = cursor.fetchall()
-        conn.close()
+import sqlite3
+from services.coingecko_service import get_crypto_data
 
-        recommendations = []
-        for crypto in cryptos:
-            crypto_id = crypto["id"]
-            crypto_name = crypto["name"]
-            crypto_price = crypto["price"]
+def monitor_user_cryptos(user_id):
+    conn = sqlite3.connect('crypto_monitor.db')
+    cursor = conn.cursor()
 
-            if crypto_price > 50000:
-                action = "sell"
-                reason = "Preço muito alto"
-            elif crypto_price < 30000:
-                action = "buy"
-                reason = "Preço muito baixo"
-            else:
-                action = "hold"
-                reason = "Preço estável"
+    # Busca as criptomoedas monitoradas pelo usuário
+    cursor.execute('SELECT crypto_id, crypto_name, last_price FROM monitored_cryptos WHERE user_id = ?', (user_id,))
+    monitored_cryptos = cursor.fetchall()
 
-            recommendations.append({
-                "id": crypto_id,
-                "name": crypto_name,
-                "price": crypto_price,
-                "action": action,
-                "reason": reason
-            })
+    for crypto in monitored_cryptos:
+        crypto_id, crypto_name, last_price = crypto
+        current_data = get_crypto_data(crypto_id)
+        current_price = current_data['market_data']['current_price']['usd']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        for recommendation in recommendations:
-            cursor.execute('''
-                INSERT INTO analysis (crypto_id, action, reason)
-                VALUES (?, ?, ?)
-            ''', (recommendation["id"], recommendation["action"], recommendation["reason"]))
-        conn.commit()
-        conn.close()
+        # Verifica a variação de preço
+        price_change = current_price - last_price
+        if abs(price_change) > 0.01 * last_price:  # 1% de variação
+            message = f"Atenção! {crypto_name} {'valorizou' if price_change > 0 else 'desvalorizou'} " \
+                      f"{abs(price_change):.2f} USD ({abs(price_change / last_price * 100):.2f}%). " \
+                      f"Preço atual: ${current_price:.2f}."
+            send_notification(user_id, message)
 
-        return jsonify({"recommendations": recommendations})
+            # Atualiza o último preço no banco de dados
+            cursor.execute('UPDATE monitored_cryptos SET last_price = ? WHERE user_id = ? AND crypto_id = ?',
+                           (current_price, user_id, crypto_id))
+            conn.commit()
 
-    except Exception as e:
-        print(f"Erro ao analisar mercado: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+    conn.close()
+
+def send_notification(user_id, message):
+    # Lógica para enviar notificação ao usuário (pode ser via WebSocket, email, etc.)
+    print(f"Notificação para o usuário {user_id}: {message}")

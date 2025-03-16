@@ -1,29 +1,33 @@
+# database.py
 import sqlite3
 
-# Conectar ao banco de dados (ou criar se não existir)
-conn = sqlite3.connect('crypto_analysis.db')
-cursor = conn.cursor()
+def init_db():
+    conn = sqlite3.connect('crypto_monitor.db')
+    cursor = conn.cursor()
 
-# Criar tabela para armazenar os dados das criptomoedas
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS cryptos (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    price REAL NOT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-)
-''')
+    # Tabela de usuários
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
 
-# Criar tabela para armazenar as análises
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS analysis (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    crypto_id TEXT NOT NULL,
-    action TEXT NOT NULL, 
-    reason TEXT NOT NULL, 
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (crypto_id) REFERENCES cryptos (id)
-)
-''')
+    # Tabela de criptomoedas monitoradas
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS monitored_cryptos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            crypto_id TEXT NOT NULL,
+            crypto_name TEXT NOT NULL,
+            last_price REAL NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
 
-conn.commit()
+    conn.commit()
+    conn.close()
+
+# Inicializa o banco de dados
+init_db()
