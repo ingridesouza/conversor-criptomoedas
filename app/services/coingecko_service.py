@@ -1,5 +1,5 @@
 import requests
-from flask import jsonify  # Adicione esta linha para importar jsonify
+from flask import jsonify
 from app.utils.database import get_db_connection
 from flask import current_app
 
@@ -25,5 +25,22 @@ def get_top_cryptos():
         conn.close()
 
         return jsonify(cryptos)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def get_crypto_data(crypto_id):
+    """
+    Obtém os dados de uma criptomoeda específica usando a API do CoinGecko.
+    """
+    try:
+        response = requests.get(
+            f"{current_app.config['COINGECKO_API_URL']}/coins/{crypto_id}",
+            headers={"x-cg-demo-api-key": current_app.config['COINGECKO_API_KEY']}
+        )
+        if response.status_code != 200:
+            return jsonify({"error": "Erro ao buscar dados da criptomoeda"}), 400
+
+        crypto_data = response.json()
+        return crypto_data
     except Exception as e:
         return jsonify({"error": str(e)}), 500

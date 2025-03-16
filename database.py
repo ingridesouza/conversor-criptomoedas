@@ -17,13 +17,13 @@ def init_db():
     # Tabela de criptomoedas monitoradas
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS monitored_cryptos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            crypto_id TEXT NOT NULL,
-            crypto_name TEXT NOT NULL,
-            last_price REAL NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        )
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        crypto_id TEXT NOT NULL,
+        crypto_name TEXT NOT NULL,
+        last_price REAL NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    );
     ''')
 
     conn.commit()
