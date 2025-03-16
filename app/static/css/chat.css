@@ -8,7 +8,7 @@
     border: 1px solid #e0e0e0; /* Borda mais suave */
     border-radius: 15px; /* Bordas mais arredondadas */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra mais suave e moderna */
-    display: flex;
+    display: none; /* Chat inicialmente fechado */
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
     overflow: hidden; /* Garante que nada ultrapasse as bordas arredondadas */
@@ -138,7 +138,7 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    display: none; /* Inicialmente escondido */
+    display: block; /* Bolinha flutuante visível inicialmente */
 }
 
 #open-chat-btn {
@@ -171,7 +171,6 @@
 .chat-minimized #chat-minimized {
     display: block;
 }
-
 
 /* Estilo do loader */
 #loader {

@@ -10,7 +10,7 @@
 <body>
     <div id="chat-container">
         <div id="chat-header">
-            <span>Chat de Investimentos</span>
+            <span data-translate="chat_title">Chat de Investimentos</span>
             <div id="chat-controls">
                 <button id="minimize-btn"><i class="fas fa-minus"></i></button>
                 <button id="close-btn"><i class="fas fa-times"></i></button>
@@ -18,12 +18,12 @@
         </div>
         <div id="chat-box">
             <div id="messages">
-                <div class="message bot-message">Olá! Sou um especialista em investimentos. Como posso ajudar você hoje?</div>
+                <div class="message bot-message" data-translate="chat_bot_message">Olá! Sou um especialista em investimentos. Como posso ajudar você hoje?</div>
             </div>
-            <div id="loader" class="loader"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div> <!-- Loader com apenas pontos -->
+            <div id="loader" class="loader"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         </div>
         <div id="chat-input">
-            <input type="text" id="user-input" placeholder="Digite sua mensagem..." />
+            <input type="text" id="user-input" placeholder="Digite sua mensagem..." data-translate="chat_placeholder" />
             <button id="send-btn">➤</button>
         </div>
     </div>

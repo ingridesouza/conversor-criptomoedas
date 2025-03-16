@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const openChatBtn = document.getElementById("open-chat-btn");
     const loader = document.getElementById("loader"); // Referência ao loader
 
+    // Inicia o chat fechado e a bolinha visível
+    chatContainer.style.display = "none"; // Chat fechado inicialmente
+    chatMinimized.style.display = "block"; // Bolinha visível inicialmente
+
     // Envia mensagem ao clicar no botão ou pressionar Enter
     sendBtn.addEventListener("click", sendMessage);
     userInput.addEventListener("keypress", function (e) {
         if (e.key === "Enter") sendMessage();
     });
 
-    // Minimiza o chat
+    // Minimiza o chat (esconde a caixa de mensagens)
     minimizeBtn.addEventListener("click", () => {
         chatBox.style.display = chatBox.style.display === "none" ? "block" : "none";
     });
@@ -30,8 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
     openChatBtn.addEventListener("click", () => {
         chatContainer.style.display = "flex";
         chatMinimized.style.display = "none";
+        chatBox.style.display = "block"; // Garante que a caixa de mensagens esteja visível
     });
 
+    // Função para enviar mensagem
     async function sendMessage() {
         const message = userInput.value.trim();
         if (message === "") return;
@@ -45,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Exibe o loader
         loader.style.display = "block";
 
-        // Envia a mensagem para o backend
+        // Simula o envio da mensagem para o backend (substitua pelo seu código real)
         try {
             const response = await fetch("/api/get-bot-response", {
                 method: "POST",
@@ -69,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Função para adicionar mensagem ao chat
     function addMessage(text, className) {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message", className);
