@@ -7,6 +7,7 @@ from flask_caching import Cache
 
 app = Flask(__name__)
 
+
 # Configuração do cache
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
