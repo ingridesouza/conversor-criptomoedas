@@ -48,12 +48,10 @@ class DeepSeekService:
 
     def get_crypto_data(self, user_message):
         try:
-            # Extrai o nome da criptomoeda da mensagem do usuário
             crypto_name = self.extract_crypto_name(user_message)
             if not crypto_name:
                 return "Por favor, especifique o nome da criptomoeda."
 
-            # Faz a requisição à API do CoinGecko
             url = f"{self.coingecko_api_url}/simple/price?ids={crypto_name}&vs_currencies=usd"
             response = requests.get(url)
             logger.debug(f"Resposta da API do CoinGecko: {response.status_code}")
@@ -83,7 +81,6 @@ class DeepSeekService:
             "ada": "cardano",
             "solana": "solana",
             "sol": "solana",
-            # Adicione mais mapeamentos conforme necessário
         }
 
         for keyword, crypto_id in crypto_keywords.items():
