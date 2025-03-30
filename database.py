@@ -29,5 +29,4 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Inicializa o banco de dados
 init_db()
