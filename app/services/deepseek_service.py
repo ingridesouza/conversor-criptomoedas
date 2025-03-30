@@ -2,7 +2,6 @@ import requests
 from flask import current_app
 import logging
 
-# Configuração de logs
 logger = logging.getLogger(__name__)
 
 class DeepSeekService:
