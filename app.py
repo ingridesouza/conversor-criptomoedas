@@ -7,27 +7,21 @@ from flask_caching import Cache
 
 app = Flask(__name__)
 
-# Configuração do cache
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-# Chave da CoinGecko API (obtida da variável de ambiente)
 COINGECKO_API_KEY = os.getenv("API_COINGECKO")
 
-# URL base da CoinGecko API
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
 
-# Cabeçalho para autenticação
 headers = {
     "x-cg-demo-api-key": COINGECKO_API_KEY
 }
 
-# Conectar ao banco de dados
 def get_db_connection():
     conn = sqlite3.connect('crypto_analysis.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# Criar tabelas no banco de dados (se não existirem)
 def initialize_database():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -52,7 +46,6 @@ def initialize_database():
     conn.commit()
     conn.close()
 
-# Inicializar o banco de dados
 initialize_database()
 
 @app.route('/')
@@ -68,7 +61,7 @@ def search_page():
     return render_template('search.html')
 
 @app.route('/get-top-cryptos')
-@cache.cached(timeout=60)  # Cache por 60 segundos
+@cache.cached(timeout=60)
 def get_top_cryptos():
     try:
         # Buscar as 20 principais criptomoedas
@@ -81,7 +74,6 @@ def get_top_cryptos():
 
         cryptos = response.json()
 
-        # Armazenar os dados no banco de dados
         conn = get_db_connection()
         cursor = conn.cursor()
         for crypto in cryptos:
@@ -106,18 +98,17 @@ def analyze_market():
         cryptos = cursor.fetchall()
         conn.close()
 
-        # Analisar as criptomoedas
+
         recommendations = []
         for crypto in cryptos:
             crypto_id = crypto["id"]
             crypto_name = crypto["name"]
             crypto_price = crypto["price"]
 
-            # Simples análise de tendência (exemplo)
-            if crypto_price > 50000:  # Exemplo: Bitcoin acima de $50,000
+            if crypto_price > 50000:
                 action = "sell"
                 reason = "Preço muito alto"
-            elif crypto_price < 30000:  # Exemplo: Bitcoin abaixo de $30,000
+            elif crypto_price < 30000:
                 action = "buy"
                 reason = "Preço muito baixo"
             else:
@@ -132,7 +123,7 @@ def analyze_market():
                 "reason": reason
             })
 
-        # Armazenar as análises no banco de dados
+
         conn = get_db_connection()
         cursor = conn.cursor()
         for recommendation in recommendations:
@@ -143,11 +134,11 @@ def analyze_market():
         conn.commit()
         conn.close()
 
-        # Retornar as recomendações
+
         return jsonify({"recommendations": recommendations})
 
     except Exception as e:
-        print(f"Erro ao analisar mercado: {str(e)}")  # Log do erro
+        print(f"Erro ao analisar mercado: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
