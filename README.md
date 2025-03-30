@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Descrição do Projeto  
+## Descrição do Projeto  
 
 Este projeto é um dashboard de análise de criptomoedas que utiliza a API da CoinGecko para obter dados de mercado e fornecer recomendações básicas de compra/venda. O sistema armazena os dados em um banco de dados SQLite e inclui funcionalidades de cache para melhor desempenho.  
 
@@ -12,7 +12,7 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 
 ---  
 
-## 🚀 Funcionalidades Principais  
+## Funcionalidades Principais  
 
 ✅ **Visualização das 20 principais criptomoedas** por capitalização de mercado  
 ✅ **Análise automatizada** com recomendações de compra/venda/hold  
@@ -20,14 +20,14 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 ✅ **Cache de requisições** para melhor desempenho  
 ✅ **Dashboard interativo** para visualização dos dados  
 
-🔜 **Em breve:**  
+**Em breve:**  
 - Alertas personalizados  
 - Comparativo entre criptomoedas  
 - Integração com Telegram/Email  
 
 ---  
 
-## 🛠️ Tecnologias Utilizadas  
+## Tecnologias Utilizadas  
 
 - Python 3  
 - Flask (framework web)  
@@ -40,7 +40,7 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 
 ---  
 
-## ⚙️ Configuração do Ambiente  
+## Configuração do Ambiente  
 
 ### Pré-requisitos  
 
@@ -88,7 +88,7 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 
 ---  
 
-## 📂 Estrutura do Projeto  
+## Estrutura do Projeto  
 
 ```  
 .  
@@ -106,7 +106,7 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 
 ---  
 
-## 🌐 Rotas da API  
+## Rotas da API  
 
 - `/` - Página inicial  
 - `/dashboard` - Dashboard de análise  
@@ -116,7 +116,7 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 
 ---  
 
-## 💾 Banco de Dados  
+## Banco de Dados  
 
 O projeto utiliza um banco de dados SQLite com duas tabelas principais:  
 
@@ -135,7 +135,7 @@ O projeto utiliza um banco de dados SQLite com duas tabelas principais:
 
 ---  
 
-## 🤝 Contribuição  
+## Contribuição  
 
 Contribuições são bem-vindas! Siga estes passos:  
 
@@ -149,7 +149,7 @@ Contribuições são bem-vindas! Siga estes passos:
 
 ---  
 
-## 📜 Licença  
+## Licença  
 
 Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.  
 
