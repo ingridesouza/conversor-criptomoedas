@@ -8,8 +8,6 @@
 
 Este projeto é um dashboard de análise de criptomoedas que utiliza a API da CoinGecko para obter dados de mercado e fornecer recomendações básicas de compra/venda. O sistema armazena os dados em um banco de dados SQLite e inclui funcionalidades de cache para melhor desempenho.  
 
-*(Em breve: Mais análises técnicas, gráficos interativos e suporte a mais exchanges!)*  
-
 ---  
 
 ## Funcionalidades Principais  
@@ -36,15 +34,13 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 - Flask-Caching (gerenciamento de cache)  
 - HTML/CSS/JavaScript (frontend)  
 
-*(Futuras implementações podem incluir React.js e Pandas para análise de dados.)*  
-
 ---  
 
 ## Configuração do Ambiente  
 
 ### Pré-requisitos  
 
-- Python 3.8 ou superior  
+- Python 3.13 ou superior  
 - pip (gerenciador de pacotes Python)  
 - Conta na [CoinGecko](https://www.coingecko.com/) para obter chave API  
 
@@ -102,8 +98,6 @@ Este projeto é um dashboard de análise de criptomoedas que utiliza a API da Co
 └── README.md             # Este arquivo  
 ```  
 
-*(Estrutura sujeita a mudanças conforme o projeto evolui.)*  
-
 ---  
 
 ## Rotas da API  
@@ -135,10 +129,7 @@ O projeto utiliza um banco de dados SQLite com duas tabelas principais:
 
 ---  
 
-
 Contribuições são bem-vindas! 
-
-*(Estou especialmente aberto a sugestões para melhorar a análise de mercado!)*  
 
 ---  
 
@@ -151,7 +142,3 @@ Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 Feito com ❤️ por Ingride Souza Dev 
 
 *Última atualização: 03/2025*  
-
----  
-
-🔨 **Aviso:** Este projeto está em desenvolvimento ativo. Interfaces e funcionalidades podem mudar sem aviso prévio!**
