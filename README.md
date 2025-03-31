@@ -1,4 +1,4 @@
-# Crypto Market Analysis Dashboard 🚧 *Em Construção* 🚧  
+# CryptoTracker 🚧 *Em Construção* 🚧  
 
 *Estou aprimorando este projeto ativamente! Novas funcionalidades e melhorias estão sendo implementadas.*  
 
