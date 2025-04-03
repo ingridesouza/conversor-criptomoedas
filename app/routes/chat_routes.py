@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from app.services.deepseek_service import DeepSeekService
 import logging
 
-# Configuração de logs
 logger = logging.getLogger(__name__)
 
 chat_bp = Blueprint('chat', __name__)
