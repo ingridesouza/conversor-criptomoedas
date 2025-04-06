@@ -95,44 +95,229 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fetchMarketAnalysis() {
+        const notificationsDiv = document.getElementById('notifications');
+        
+        // Mostrar estado de carregamento com animação
+        notificationsDiv.innerHTML = `
+            <div class="loading-analysis">
+                <div class="spinner"></div>
+                <p>Buscando as melhores oportunidades de mercado...</p>
+            </div>
+        `;
+    
         fetch('/analyze-market')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar análise de mercado');
-                }
+                if (!response.ok) throw new Error('Erro ao buscar análise de mercado');
                 return response.json();
             })
             .then(data => {
-                const notificationsDiv = document.getElementById('notifications');
-                notificationsDiv.innerHTML = ''; // Limpa as notificações antes de preencher
+                notificationsDiv.innerHTML = '';
     
                 if (data.error) {
-                    notificationsDiv.innerHTML = `<p class="error">${data.error}</p>`;
+                    showErrorMessage(data.error);
                     return;
                 }
     
-                // Verificar se há recomendações
-                if (!data.recommendations || data.recommendations.length === 0) {
-                    notificationsDiv.innerHTML = `<p class="error">Nenhuma recomendação disponível.</p>`;
+                // Filtrar apenas as moedas mais relevantes (top 5% ou que atendam a critérios específicos)
+                const relevantCryptos = filterRelevantCryptos(data.recommendations || []);
+                
+                if (relevantCryptos.length === 0) {
+                    showNoOpportunitiesMessage();
                     return;
                 }
     
-                // Exibir as recomendações
-                data.recommendations.forEach(recommendation => {
-                    const notification = document.createElement('div');
-                    notification.className = 'notification';
-                    notification.innerHTML = `
-                        <p><strong>${recommendation.name}</strong>: ${recommendation.action} a $${recommendation.price.toFixed(2)}</p>
-                        <p>Motivo: ${recommendation.reason}</p>
-                    `;
-                    notificationsDiv.appendChild(notification);
-                });
+                // Exibir resumo do mercado
+                displayMarketSummary(data.market_summary);
+    
+                // Exibir apenas as 3 melhores oportunidades
+                const topOpportunities = relevantCryptos.slice(0, 3);
+                displayOpportunities(topOpportunities);
+    
+                // Botão para ver mais oportunidades (se houver)
+                if (relevantCryptos.length > 3) {
+                    addShowMoreButton(relevantCryptos.slice(3));
+                }
+    
+                addRefreshSection();
             })
             .catch(error => {
-                console.error('Erro ao buscar análise de mercado:', error);
-                const notificationsDiv = document.getElementById('notifications');
-                notificationsDiv.innerHTML = `<p class="error">Erro ao analisar criptomoedas. Tente novamente mais tarde.</p>`;
+                console.error('Erro na análise:', error);
+                showErrorMessage('Erro ao analisar as melhores oportunidades. Tente novamente.');
             });
+    
+        // Funções auxiliares para melhor organização
+        function filterRelevantCryptos(recommendations) {
+            return recommendations
+                .filter(crypto => {
+                    // Critérios para considerar uma moeda relevante:
+                    // 1. Alta confiança (>70%) OU
+                    // 2. Grande variação de preço (>5%) OU
+                    // 3. Recomendação de compra com potencial alto
+                    return crypto.confidence > 70 || 
+                           Math.abs(crypto.price_change_24h) > 5 || 
+                           (crypto.action.toLowerCase().includes('comprar') && crypto.potential_gain > 10);
+                })
+                .sort((a, b) => {
+                    // Ordenar por: maior confiança, depois maior potencial de ganho
+                    if (b.confidence !== a.confidence) return b.confidence - a.confidence;
+                    return b.potential_gain - a.potential_gain;
+                });
+        }
+    
+        function displayMarketSummary(summary) {
+            if (!summary) return;
+            
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'market-summary';
+            
+            summaryDiv.innerHTML = `
+                <h3>📊 Resumo do Mercado</h3>
+                <div class="summary-grid">
+                    <div class="summary-item ${summary.sentiment === 'positive' ? 'positive' : 'negative'}">
+                        <span>Sentimento:</span>
+                        <strong>${summary.sentiment === 'positive' ? 'Positivo 🚀' : 'Negativo ⚠️'}</strong>
+                    </div>
+                    <div class="summary-item ${summary.top_gainer_change > 0 ? 'positive' : ''}">
+                        <span>Melhor desempenho (24h):</span>
+                        <strong>${summary.top_gainer || 'N/A'} ${summary.top_gainer_change > 0 ? '+' : ''}${summary.top_gainer_change}%</strong>
+                    </div>
+                    <div class="summary-item ${summary.top_loser_change < 0 ? 'negative' : ''}">
+                        <span>Maior queda (24h):</span>
+                        <strong>${summary.top_loser || 'N/A'} ${summary.top_loser_change}%</strong>
+                    </div>
+                </div>
+                <p class="summary-advice">${getMarketAdvice(summary.sentiment, summary.volatility)}</p>
+            `;
+            
+            notificationsDiv.appendChild(summaryDiv);
+        }
+    
+        function getMarketAdvice(sentiment, volatility) {
+            if (sentiment === 'positive' && volatility < 30) {
+                return "💡 Mercado em alta com baixa volatilidade - bom momento para investimentos consistentes";
+            } else if (sentiment === 'positive' && volatility >= 30) {
+                return "💡 Mercado em alta mas volátil - considere proteções contra quedas bruscas";
+            } else if (sentiment === 'negative' && volatility < 30) {
+                return "💡 Mercado em baixa estável - oportunidades de compra podem aparecer";
+            } else {
+                return "💡 Mercado volátil - cuidado com movimentos bruscos e considere stop-loss";
+            }
+        }
+    
+        function displayOpportunities(opportunities) {
+            opportunities.forEach((opp, index) => {
+                const oppElement = document.createElement('div');
+                oppElement.className = `notification ${opp.urgency} highlight`;
+                
+                // Ícone e cor baseado na ação
+                const { icon, color } = getOppIconAndColor(opp);
+                
+                oppElement.innerHTML = `
+                    <div class="opportunity-header" style="border-left: 4px solid ${color}">
+                        <span class="opp-icon">${icon}</span>
+                        <h4>${opp.name} (${opp.symbol})</h4>
+                        <span class="opp-price">$${opp.price.toFixed(2)}</span>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opp-action ${opp.action.toLowerCase().includes('comprar') ? 'buy' : 'sell'}">
+                            <strong>${opp.action.toUpperCase()}</strong>
+                        </div>
+                        <p><strong>Potencial:</strong> 
+                            <span class="${opp.potential_gain > 0 ? 'positive' : 'negative'}">
+                                ${opp.potential_gain > 0 ? '+' : ''}${opp.potential_gain}%
+                            </span>
+                            (${opp.confidence}% de confiança)
+                        </p>
+                        <p class="opp-reason">${opp.reason}</p>
+                    </div>
+                    <div class="opportunity-footer">
+                        <div class="opp-stats">
+                            <span>24h: <span class="${opp.price_change_24h >= 0 ? 'positive' : 'negative'}">
+                                ${opp.price_change_24h >= 0 ? '+' : ''}${opp.price_change_24h}%
+                            </span></span>
+                            <span>Vol: $${opp.volume_24h.toLocaleString()}</span>
+                        </div>
+                        <button class="details-btn" data-id="${opp.id}">Detalhes</button>
+                    </div>
+                `;
+                
+                // Animação de entrada
+                setTimeout(() => {
+                    oppElement.style.opacity = '1';
+                    oppElement.style.transform = 'translateY(0)';
+                }, index * 150);
+                
+                notificationsDiv.appendChild(oppElement);
+            });
+        }
+    
+        function getOppIconAndColor(opportunity) {
+            if (opportunity.action.toLowerCase().includes('comprar')) {
+                return {
+                    icon: '🟢',
+                    color: '#2ecc71'
+                };
+            } else if (opportunity.action.toLowerCase().includes('vender')) {
+                return {
+                    icon: '🔴',
+                    color: '#e74c3c'
+                };
+            } else {
+                return {
+                    icon: '🟡',
+                    color: '#f39c12'
+                };
+            }
+        }
+    
+        function addShowMoreButton(hiddenOpportunities) {
+            const showMoreDiv = document.createElement('div');
+            showMoreDiv.className = 'show-more';
+            showMoreDiv.innerHTML = `
+                <button id="show-more-btn" class="show-more-btn">
+                    ↓ Mostrar mais oportunidades (${hiddenOpportunities.length})
+                </button>
+            `;
+            
+            notificationsDiv.appendChild(showMoreDiv);
+            
+            document.getElementById('show-more-btn').addEventListener('click', () => {
+                showMoreDiv.remove();
+                displayOpportunities(hiddenOpportunities);
+            });
+        }
+    
+        function showNoOpportunitiesMessage() {
+            notificationsDiv.innerHTML = `
+                <div class="notification info">
+                    <p>ℹ️ Nenhuma oportunidade relevante encontrada no momento.</p>
+                    <p>O mercado está estável sem movimentos significativos. Verifique novamente mais tarde.</p>
+                </div>
+            `;
+        }
+    
+        function showErrorMessage(message) {
+            notificationsDiv.innerHTML = `
+                <div class="notification error">
+                    <p>⚠️ ${message}</p>
+                    <button id="retry-analysis" class="retry-btn">Tentar novamente</button>
+                </div>
+            `;
+            document.getElementById('retry-analysis').addEventListener('click', fetchMarketAnalysis);
+        }
+    
+        function addRefreshSection() {
+            const refreshDiv = document.createElement('div');
+            refreshDiv.className = 'refresh-section';
+            refreshDiv.innerHTML = `
+                <button id="refresh-analysis" class="refresh-btn">
+                    🔄 Atualizar Análise
+                </button>
+                <span class="last-updated">Atualizado: ${new Date().toLocaleTimeString()}</span>
+            `;
+            notificationsDiv.appendChild(refreshDiv);
+            document.getElementById('refresh-analysis').addEventListener('click', fetchMarketAnalysis);
+        }
     }
 
     // Atualizar os dados das criptomoedas imediatamente e a cada 30 segundos
