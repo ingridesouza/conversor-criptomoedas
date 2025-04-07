@@ -139,7 +139,7 @@ body.dark-mode tr:hover {
     background-color: #333;
 }
 
-/* Conversor de Criptomoedas */
+/* Conversor de Criptomoedas
 .converter {
     background: #f9f9f9;
     padding: 2rem;
@@ -219,7 +219,7 @@ body.dark-mode button:hover {
 
 body.dark-mode .result {
     color: #e0e0e0;
-}
+} */
 
 /* Página de Pesquisa */
 .search-section {
