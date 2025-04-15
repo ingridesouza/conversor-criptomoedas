@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
-
 COINGECKO_API_KEY = os.getenv("API_COINGECKO")
 
 COINGECKO_API_URL = "https://api.coingecko.com/api/v3"
