@@ -5,6 +5,7 @@ def init_db():
     conn = sqlite3.connect('crypto_monitor.db')
     cursor = conn.cursor()
 
+    
     # Tabela de usuários
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
