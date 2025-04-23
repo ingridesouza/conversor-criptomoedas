@@ -134,7 +134,6 @@ def analyze_market():
         conn.commit()
         conn.close()
 
-
         return jsonify({"recommendations": recommendations})
 
     except Exception as e:
