@@ -32,6 +32,7 @@ def initialize_database():
             price REAL NOT NULL,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
+        
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS analysis (
