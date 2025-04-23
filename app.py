@@ -22,6 +22,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
 def initialize_database():
     conn = get_db_connection()
     cursor = conn.cursor()
